@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ôn tập Tiếng Việt lớp 2</title>
+<style>
+:root{--pink:#ff7fa8;--purple:#8267d8;--blue:#5aa9e6;--yellow:#ffe58a;--ink:#344054;--green:#36a779}
+*{box-sizing:border-box}body{margin:0;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#fff1f6,#eef8ff 55%,#fff9df);min-height:100vh}
+header{text-align:center;padding:28px 14px 20px;background:linear-gradient(120deg,#ff9fbd,#a69aff);color:white;border-radius:0 0 32px 32px;box-shadow:0 5px 16px #7b68b633}
+header h1{font-size:clamp(25px,4vw,42px);margin:0 0 8px;text-shadow:2px 3px #8058a355}header p{margin:0;font-size:17px}
+.wrap{max-width:1050px;margin:22px auto;padding:0 14px 40px}.card{background:#ffffffed;border:2px solid #fff;border-radius:22px;padding:22px;margin:18px 0;box-shadow:0 8px 22px #5e6b8b16}
+h2{color:#785bd0;margin-top:0}.login-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+label{display:block;font-weight:bold;margin:10px 0 6px}input,select{width:100%;padding:12px;border:2px solid #dce4f2;border-radius:12px;font-size:16px;background:white;color:var(--ink)}
+button{border:0;border-radius:13px;padding:12px 18px;background:var(--purple);color:white;font-weight:bold;font-size:16px;cursor:pointer;box-shadow:0 4px 0 #5d49a8;transition:.15s}
+button:hover{transform:translateY(-1px);filter:brightness(1.04)}button:disabled{opacity:.5;cursor:not-allowed}.pink{background:var(--pink);box-shadow:0 4px 0 #d65b87}.green{background:var(--green);box-shadow:0 4px 0 #247a57}.secondary{background:#e9e6ff;color:#5948a4;box-shadow:none}
+.hidden{display:none!important}.muted{color:#667085;font-size:14px}.pill{display:inline-block;padding:6px 11px;background:#f0ecff;border-radius:20px;color:#684fc2;font-weight:bold;margin:3px}
+.question{padding:15px;margin:12px 0;background:#f8faff;border:1px solid #e3e9f5;border-radius:15px}.question p{margin:0 0 10px;font-weight:bold}.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}.option{font-weight:normal;display:flex;gap:8px;align-items:flex-start;background:white;border:1px solid #e0e6f1;border-radius:10px;padding:10px;cursor:pointer}.option input{width:auto;margin-top:4px}
+.fill-row{display:grid;grid-template-columns:1fr minmax(130px,250px);gap:10px;align-items:center}.fill-row input{max-width:250px}
+.match-row{display:grid;grid-template-columns:1fr 1.3fr;gap:12px;align-items:center;margin:10px 0}.match-left{padding:11px;border-radius:10px;background:#fff0f5;font-weight:bold}.match-row select{font-size:14px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.notice{padding:12px 14px;border-radius:12px;background:#fff6d9;border-left:5px solid #f3c84b;margin:12px 0}.success{background:#e7fff3;border-left-color:#36a779}.result-big{font-size:28px;color:#785bd0;font-weight:bold}
+table{width:100%;border-collapse:collapse;min-width:700px}th,td{padding:10px;border:1px solid #e1e6ef;text-align:left}th{background:#eeeaff;color:#5844a6} .table-wrap{overflow:auto}
+footer{text-align:center;padding:20px;color:#667085}
+@media(max-width:600px){.card{padding:15px}.match-row{grid-template-columns:1fr}.fill-row{grid-template-columns:1fr}.fill-row input{max-width:none}}
+</style>
+</head>
+<body>
+<header>
+<h1>🌈 ÔN TẬP TIẾNG VIỆT LỚP 2 🌈</h1>
+<p>🐝 Cùng học vui – Tự tin chinh phục thử thách! 📚</p>
+</header>
+<div class="wrap">
+<section class="card" id="loginCard">
+<h2>🔐 Đăng nhập</h2>
+<div class="login-grid">
+<div>
+<h3>🎒 Học sinh</h3>
+<label for="studentName">Chọn hoặc nhập họ tên</label>
+<input id="studentName" list="studentNames" placeholder="Nhập họ và tên của em">
+<datalist id="studentNames"></datalist>
+<label for="studentPass">Mật khẩu học sinh</label>
+<input id="studentPass" type="password" placeholder="Nhập mật khẩu học sinh">
+<div class="actions"><button onclick="studentLogin()">Vào làm bài 🚀</button></div>
+</div>
+<div>
+<h3>👩‍🏫 Giáo viên</h3>
+<label for="teacherPass">Mật khẩu giáo viên</label>
+<input id="teacherPass" type="password" placeholder="Nhập mật khẩu giáo viên">
+<div class="actions"><button class="pink" onclick="teacherLogin()">Mở trang giáo viên</button></div>
+<p class="muted">Trang giáo viên dùng để xem lịch sử làm bài được lưu trên trình duyệt này.</p>
+</div>
+</div>
+<div id="loginMessage" class="notice hidden"></div>
+</section>
+
+<section id="quizArea" class="hidden">
+<div class="card">
+<div>👋 Xin chào <strong id="currentStudent"></strong>! <span class="pill">Tổng điểm: 30</span></div>
+<p class="muted">Hãy đọc kĩ đề bài, hoàn thành cả 3 bài rồi nhấn “Nộp bài”.</p>
+</div>
+<div class="card">
+<h2>📝 Bài 1. Điền từ hoặc số thích hợp vào chỗ chấm (10 điểm)</h2>
+<div id="fillQuestions"></div>
+</div>
+<div class="card">
+<h2>🧩 Bài 2. Nối ô chữ bên trái với ô chữ bên phải để được câu đúng (10 điểm)</h2>
+<p>Chọn phần câu phù hợp với từng ô chữ bên trái.</p>
+<div id="matchQuestions"></div>
+</div>
+<div class="card">
+<h2>🎯 Bài 3. Trắc nghiệm (10 điểm)</h2>
+<p class="muted">Mỗi câu đúng được 1/3 điểm; điểm bài 3 được làm tròn đến hai chữ số thập phân.</p>
+<div id="mcQuestions"></div>
+<div class="actions"><button class="green" onclick="submitQuiz()">Nộp bài và xem kết quả 🌟</button><button class="secondary" onclick="logout()">Thoát bài</button></div>
+</div>
+<div id="resultCard" class="card hidden"></div>
+</section>
+
+<section id="teacherArea" class="hidden">
+<div class="card">
+<h2>📊 Bảng theo dõi của giáo viên</h2>
+<div class="notice">Dữ liệu hiện tại được lưu trên trình duyệt/máy đang mở trang này. Nếu học sinh làm trên máy khác, kết quả sẽ không tự chuyển về máy giáo viên.</div>
+<div class="actions"><button onclick="renderHistory()">🔄 Làm mới</button><button class="green" onclick="exportCSV()">⬇️ Xuất CSV</button><button class="pink" onclick="clearHistory()">Xóa lịch sử</button><button class="secondary" onclick="logout()">Đăng xuất</button></div>
+<p id="historySummary"></p>
+<div class="table-wrap"><table><thead><tr><th>STT</th><th>Học sinh</th><th>Đăng nhập lúc</th><th>Nộp bài lúc</th><th>Bài 1</th><th>Bài 2</th><th>Bài 3</th><th>Tổng điểm</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+</div>
+</section>
+</div>
+<footer>🌼 Chăm chỉ mỗi ngày – Tiếng Việt thêm hay! 🌼</footer>
+
+<script>
+const STUDENT_PASSWORD = "CoNgan0204";
+const TEACHER_PASSWORD = "GV0204";
+const HISTORY_KEY = "tntv_lop2_history_v1";
+const fillData = [
+ {q:"Nhìn …………… trông rộng.",a:["xa"]},
+ {q:"Rồng …………… phượng múa.",a:["bay"]},
+ {q:"Chó …………… mèo đậy.",a:["treo"]},
+ {q:"Mưa …………… gió hoà.",a:["thuận","thuan"]},
+ {q:"Thua keo này, bày …………… khác.",a:["keo"]},
+ {q:"Ăn kĩ …………… lâu, cày sâu tốt lúa.",a:["no"]},
+ {q:"Đói cho sạch, …………… cho thơm.",a:["rách","rach"]},
+ {q:"Non …………… nước biếc.",a:["xanh"]},
+ {q:"Mình đồng …………… sắt.",a:["da"]},
+ {q:"Tre …………… dễ uốn.",a:["non"]}
+];
+const leftItems=["Những chú ếch","Quả dưa hấu","Đàn ong","Gà mái","Chú ngựa ô","Cánh hoa giấy","Cây xương rồng","Hoa sen","Cây đa","Mùi hoa sữa"];
+const rightItems=["nhặt thóc trên sân.","nở rực rỡ trong đầm.","ruột đỏ au.","nồng nàn trên đường phố.","tỏa bóng mát ở sân đình.","mỏng tang như giấy bóng.","kêu ồm ộp trong ao.","phi nhanh trên thảo nguyên.","có những chiếc gai nhọn hoắt.","hút mật trong vườn hoa."];
+// Đáp án theo thứ tự câu bên trái.
+const matchAnswers=[6,2,9,0,7,5,8,1,4,3];
+const mcData=[
+ {q:"Từ nào sau đây viết đúng chính tả?",o:["lịch xử","xám sịt","trắng sóa","giọt sương"],a:3},
+ {q:"“Vầng trăng của ngoại” mà bạn My nhắc đến là gì?",o:["ngôi sao","đèn bàn","đom đóm","bếp lửa"],a:1,detail:"Ông ngoại đang khâu quần dưới ánh đèn bàn."},
+ {q:"Câu nào dưới đây là câu nêu đặc điểm?",o:["Chúng em giúp đỡ nhau cùng học hành.","Các bạn học sinh bàn luận về chuyến đi chơi.","Không khí của buổi chào cờ rất trang nghiêm.","Bạn học sinh đang trả lời cô giáo."],a:2},
+ {q:"Ai người chẳng ngại nắng mưa / Đi khắp mọi chốn để đưa thư về?",o:["bảo vệ","thợ may","bưu tá","công nhân"],a:2},
+ {q:"Câu nào dưới đây là câu nêu hoạt động?",o:["Mẹ em hái trái cây trong vườn.","Trong vườn, hoa cúc vàng tươi.","Mẹ em là nông dân.","Sân vận động đông vui, náo nhiệt."],a:0},
+ {q:"Câu nào dưới đây là câu giới thiệu?",o:["Hoa Lư là cố đô của Việt Nam.","Em đang đi tham quan cố đô Hoa Lư.","Khu vui chơi rất náo nhiệt.","Bé rất háo hức khi được đi biển chơi."],a:0},
+ {q:"Câu tục ngữ nào nói về lòng kiên trì, quyết tâm?",o:["Một giọt máu đào hơn ao nước lã.","Lá lành đùm lá rách.","Một con ngựa đau cả tàu bỏ cỏ.","Có công mài sắt có ngày nên kim."],a:3},
+ {q:"Từ nào dưới đây là từ chỉ hoạt động?",o:["môn học","chuyên cần","nghiêm túc","luyện tập"],a:3},
+ {q:"Từ nào dưới đây là từ chỉ sự vật?",o:["đồng hồ","chinh phục","thán phục","thuyết phục"],a:0},
+ {q:"Câu nào dưới đây sử dụng sai dấu chấm hỏi?",o:["Lớp bạn có bao nhiêu học sinh?","Ông mua cho em bao nhiêu là đồ chơi?","Chú gấu bông của bạn có xinh không?","Con có muốn về quê thăm ông bà không?"],a:1},
+ {q:"Tên riêng nào dưới đây viết đúng?",o:["Hồng Hạnh","thanh nga","Linh chi","Khôi nguyên"],a:0},
+ {q:"Từ nào dưới đây là từ chỉ hoạt động?",o:["bài tập","chăm chỉ","học kì","ôn tập"],a:3},
+ {q:"Từ nào dưới đây có nghĩa giống với từ “thành phố”?",o:["miền núi","thành thị","nông thôn","làng quê"],a:1},
+ {q:"Đáp án nào có tên học sinh được sắp xếp đúng theo thứ tự bảng chữ cái?",o:["Tùng, Sơn, Phong, Quân","Ánh, Cường, Đào, Vũ","Hoàng, Bình, Nam, Minh","Ngọc, Quỳnh, Chi, Vân"],a:1},
+ {q:"Con gì hai mắt trong veo / Hay rình bắt chuột, leo trèo rất nhanh?",o:["con chó","con khỉ","con mèo","con rắn"],a:2},
+ {q:"Trong đêm hè oi bức, mẹ đã làm gì để con ngủ ngon?",o:["Mẹ đọc thơ cho con ngủ.","Mẹ hát ru cho con ngủ.","Mẹ đọc truyện cho con ngủ.","Mẹ đọc vè cho con ngủ."],a:1,detail:"Đoạn thơ có câu “Kẽo cà tiếng võng mẹ ngồi mẹ ru”."},
+ {q:"Câu nào dưới đây sử dụng sai dấu chấm than?",o:["Bầu trời ở đây đẹp quá!","Chú mèo có bộ lông đẹp quá!","Bánh mẹ làm mới ngon làm sao!","Chúng em đang thả diều trên đê!"],a:3},
+ {q:"Từ nào dưới đây là từ chỉ đặc điểm?",o:["thanh long","thanh toán","thanh bình","thanh âm"],a:2},
+ {q:"Câu nào dưới đây sử dụng sai dấu chấm?",o:["Các bạn nam đang chơi đá bóng.","Nam rủ em đi chơi.","Chúng ta đi chơi ở chỗ nào.","Em và bạn thân đi công viên."],a:2},
+ {q:"Câu nào dưới đây là câu nêu hoạt động?",o:["Anh của em là cầu thủ.","Chú em là người hâm mộ bóng đá.","Trận đấu rất căng thẳng và kịch tính.","Khán giả đang cổ vũ cho các cầu thủ trên sân."],a:3},
+ {q:"Chọn từ thích hợp: “Ăn … nhớ kẻ trồng cây.”",o:["hạt","củ","quả","rau"],a:2},
+ {q:"Từ nào trái nghĩa với từ “dũng cảm”?",o:["gan dạ","nhát gan","bất khuất","kiên cường"],a:1},
+ {q:"Từ nào dưới đây là từ chỉ đặc điểm?",o:["công bằng","công an","công nghệ","công tác"],a:0},
+ {q:"Câu nào dưới đây là câu giới thiệu?",o:["Nam là bạn thân của em.","Nam chăm chỉ học toán mỗi ngày.","Bạn Nam đang học trên phòng.","Em rủ bạn Nam đi học."],a:0},
+ {q:"Câu nào dưới đây là câu nêu đặc điểm?",o:["Chúng em tham quan viện bảo tàng.","Khúc nhạc độc đáo và mới lạ.","Bà ngồi đan khăn bên cửa sổ.","Học sinh đang tập múa trên sân trường."],a:1},
+ {q:"Câu nào dưới đây sử dụng sai dấu phẩy?",o:["Ông chẻ tre, cắt giấy để làm diều cho bé.","Bà ngoại đi chợ mua kẹo lạc, quả thị và bánh.","Nghỉ hè, bé được về quê thăm ông bà, cô chú.","Quê bé có cánh, đồng lúa rộng, bao la có luỹ, tre xanh mướt."],a:3},
+ {q:"Từ nào dưới đây viết sai chính tả?",o:["ngơ nghác","ngả nghiêng","nghẹn ngào","nghi ngờ"],a:0},
+ {q:"Đáp án nào dưới đây là thành ngữ?",o:["Chân lấm tay bẩn","Chân lấm tay đất","Chân lấm tay bùn","Chân lấm tay sạch"],a:2},
+ {q:"Nhóm từ nào chỉ gồm các từ chỉ sự vật?",o:["rơm rạ, hoa quả, ngôi nhà","lưỡi cày, cuốc đất, cái liềm","cây cối, gia cầm, trồng trọt","cánh chim, bầu trời, trong xanh"],a:0},
+ {q:"Quả gì hình dáng cong cong / Xếp thành từng nải chờ mong chín vàng?",o:["quả cam","quả xoài","quả chuối","quả đu đủ"],a:2}
+];
+let currentStudent="", loginTime="", submitted=false;
+const $=id=>document.getElementById(id);
+function normalize(s){return (s||"").toLocaleLowerCase("vi").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[.,!?…]/g,"").trim().replace(/\s+/g," ")}
+function stamp(){return new Date().toLocaleString("vi-VN",{hour12:false})}
+function studentLogin(){
+ const name=$("studentName").value.trim(), pass=$("studentPass").value;
+ if(!name){showLoginMessage("Em hãy nhập họ tên trước nhé!");return}
+ if(pass!==STUDENT_PASSWORD){showLoginMessage("Mật khẩu học sinh chưa đúng. Em hãy kiểm tra lại.");return}
+ currentStudent=name;loginTime=stamp();submitted=false;
+ $("currentStudent").textContent=name;$("loginCard").classList.add("hidden");$("teacherArea").classList.add("hidden");$("quizArea").classList.remove("hidden");$("resultCard").classList.add("hidden");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function teacherLogin(){
+ if($("teacherPass").value!==TEACHER_PASSWORD){showLoginMessage("Mật khẩu giáo viên chưa đúng.");return}
+ $("loginCard").classList.add("hidden");$("quizArea").classList.add("hidden");$("teacherArea").classList.remove("hidden");renderHistory();window.scrollTo({top:0,behavior:"smooth"});
+}
+function showLoginMessage(t){$("loginMessage").textContent=t;$("loginMessage").classList.remove("hidden")}
+function logout(){currentStudent="";submitted=false;$("quizArea").classList.add("hidden");$("teacherArea").classList.add("hidden");$("loginCard").classList.remove("hidden");$("teacherPass").value="";window.scrollTo({top:0,behavior:"smooth"})}
+function buildQuiz(){
+ $("fillQuestions").innerHTML=fillData.map((x,i)=>`<div class="question fill-row"><label for="fill${i}">Câu ${i+1}. ${x.q}</label><input id="fill${i}" autocomplete="off" placeholder="Điền từ còn thiếu"></div>`).join("");
+ $("matchQuestions").innerHTML=leftItems.map((x,i)=>`<div class="match-row"><div class="match-left">${i+1}. ${x}</div><select id="match${i}"><option value="">-- Chọn vế phù hợp --</option>${rightItems.map((r,j)=>`<option value="${j}">${r}</option>`).join("")}</select></div>`).join("");
+ $("mcQuestions").innerHTML=mcData.map((x,i)=>`<div class="question"><p>Câu ${i+1}. ${x.q}</p>${x.detail?`<p class="muted">${x.detail}</p>`:""}<div class="options">${x.o.map((op,j)=>`<label class="option"><input type="radio" name="mc${i}" value="${j}"><span><b>${"abcd"[j]}.</b> ${op}</span></label>`).join("")}</div></div>`).join("");
+}
+function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]")}catch(e){return []}}
+function saveHistory(h){localStorage.setItem(HISTORY_KEY,JSON.stringify(h))}
+function submitQuiz(){
+ if(submitted){$("resultCard").scrollIntoView({behavior:"smooth"});return}
+ let s1=0,s2=0,s3=0;
+ fillData.forEach((x,i)=>{let val=normalize($("fill"+i).value);if(x.a.some(a=>normalize(a)===val))s1++});
+ matchAnswers.forEach((a,i)=>{if(Number($("match"+i).value)===a)s2++});
+ mcData.forEach((x,i)=>{let picked=document.querySelector(`input[name="mc${i}"]:checked`);if(picked&&Number(picked.value)===x.a)s3++});
+ // Mỗi bài tối đa 10 điểm.
+ const p1=s1,p2=s2,p3=Math.round((s3/mcData.length*10)*100)/100,total=Math.round((p1+p2+p3)*100)/100;
+ const record={name:currentStudent,loginTime,submitTime:stamp(),p1,p2,p3,total,correct1:s1,correct2:s2,correct3:s3};
+ const history=getHistory();history.push(record);saveHistory(history);submitted=true;
+ $("resultCard").innerHTML=`<h2>🎉 Kết quả của ${escapeHtml(currentStudent)}</h2><div class="result-big">${total}/30 điểm</div><p>📝 Bài 1: <b>${p1}/10</b> (${s1}/10 câu đúng)</p><p>🧩 Bài 2: <b>${p2}/10</b> (${s2}/10 câu đúng)</p><p>🎯 Bài 3: <b>${p3}/10</b> (${s3}/30 câu đúng)</p><div class="notice success">Kết quả đã được lưu trên trình duyệt này. Em hãy xem lại các câu trả lời trước khi kết thúc.</div><h3>Đáp án tham khảo</h3><p><b>Bài 1:</b> xa; bay; treo; thuận; keo; no; rách; xanh; da; non.</p><p><b>Bài 2:</b> Những chú ếch – kêu ồm ộp trong ao; quả dưa hấu – ruột đỏ au; đàn ong – hút mật trong vườn hoa; gà mái – nhặt thóc trên sân; chú ngựa ô – phi nhanh trên thảo nguyên; cánh hoa giấy – mỏng tang như giấy bóng; cây xương rồng – có những chiếc gai nhọn hoắt; hoa sen – nở rực rỡ trong đầm; cây đa – tỏa bóng mát ở sân đình; mùi hoa sữa – nồng nàn trên đường phố.</p><p><b>Bài 3:</b> ${mcData.map((x,i)=>`${i+1}.${"ABCD"[x.a]}`).join(" · ")}</p><div class="actions"><button class="green" onclick="logout()">Hoàn thành</button></div>`;
+ $("resultCard").classList.remove("hidden");$("resultCard").scrollIntoView({behavior:"smooth"});
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderHistory(){
+ const h=getHistory();$("historySummary").textContent=`Tổng số lượt làm bài đã lưu: ${h.length}`;
+ $("historyBody").innerHTML=h.length?h.slice().reverse().map((r,i)=>`<tr><td>${h.length-i}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.loginTime)}</td><td>${escapeHtml(r.submitTime)}</td><td>${r.p1}/10</td><td>${r.p2}/10</td><td>${r.p3}/10</td><td><b>${r.total}/30</b></td></tr>`).join(""):`<tr><td colspan="8">Chưa có kết quả nào được lưu trên trình duyệt này.</td></tr>`;
+}
+function exportCSV(){
+ const h=getHistory();if(!h.length){alert("Chưa có dữ liệu để xuất.");return}
+ const rows=[["STT","Họ tên","Đăng nhập lúc","Nộp bài lúc","Bài 1","Bài 2","Bài 3","Tổng điểm"],...h.map((r,i)=>[i+1,r.name,r.loginTime,r.submitTime,r.p1,r.p2,r.p3,r.total])];
+ const csv="\uFEFF"+rows.map(row=>row.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\r\n");
+ const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ket-qua-on-tap-tieng-viet-lop-2.csv";a.click();URL.revokeObjectURL(url);
+}
+function clearHistory(){if(!confirm("Bạn có chắc muốn xóa toàn bộ lịch sử trên trình duyệt này không? Thao tác không thể hoàn tác."))return;localStorage.removeItem(HISTORY_KEY);renderHistory()}
+buildQuiz();
+</script>
+</body>
+</html>
